@@ -22,7 +22,7 @@ import { useSession, signOut } from "@/lib/auth-client";
 const navLinks = [
   { href: "/", label: "Home", icon: Home        },
   { href: "/cars", label: "Explore Cars", icon: Car         },
-  { href: "/cars/new", label: "Add Car", icon: Plus        },
+  { href: "/addCar", label: "Add Car", icon: Plus        },
   { href: "/dashboard/bookings", label: "My Bookings", icon: CalendarDays },
 ];
 
@@ -180,7 +180,7 @@ function Navbar() {
           mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
-        <div className="bg-[#0d0d0d] border-b border-white/[0.06] px-4 py-4 space-y-1">
+        <div className="bg-black/40  border-b border-white/[0.06] px-4 py-4 space-y-1">
 
           {navLinks.map(({ href, label, icon: Icon }) => {
             const active = isActive(href);
