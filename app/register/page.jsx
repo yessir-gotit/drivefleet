@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import Navbar from "@/components/Navbar";
 import {
   User,
@@ -67,8 +68,25 @@ export default function RegisterPage() {
     setIsLoading(true);
     setError("");
 
+    // Validate all fields are filled
+    const emptyFields = [];
+    if (!form.name.trim()) emptyFields.push("Full Name");
+    if (!form.email.trim()) emptyFields.push("Email");
+    if (!form.photoUrl.trim()) emptyFields.push("Photo URL");
+    if (!form.password) emptyFields.push("Password");
+
+    if (emptyFields.length > 0) {
+      const message = `Please fill in the following required fields: ${emptyFields.join(", ")}.`;
+      setError(message);
+      toast.error(message);
+      setIsLoading(false);
+      return;
+    }
+
     if (!termsAccepted) {
-      setError("You must accept the Terms & Conditions to create an account.");
+      const message = "You must accept the Terms & Conditions to create an account.";
+      setError(message);
+      toast.error(message);
       setIsLoading(false);
       return;
     }
@@ -82,9 +100,12 @@ export default function RegisterPage() {
     });
 
     if (authError) {
-      setError(authError.message || "Failed to create account. Please try again.");
+      const message = authError.message || "Failed to create account. Please try again.";
+      setError(message);
+      toast.error(message);
       setIsLoading(false);
     } else {
+      toast.success("Account created successfully! Welcome to DriveFleet.");
       router.push("/");
     }
   };
@@ -230,7 +251,7 @@ export default function RegisterPage() {
                 </p>
               </div>
 
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-5" onSubmit={handleSignUp}>
                 {/*  Name  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
@@ -241,7 +262,8 @@ export default function RegisterPage() {
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="Name"
+                    placeholder="Name *"
+                    required
                     aria-label="Full Name"
                     className="w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                   />
@@ -257,7 +279,8 @@ export default function RegisterPage() {
                     name="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="Email"
+                    placeholder="Email *"
+                    required
                     aria-label="Email Address"
                     className="w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                   />
@@ -274,7 +297,8 @@ export default function RegisterPage() {
                       name="photoUrl"
                       value={form.photoUrl}
                       onChange={handleChange}
-                      placeholder="Photo URL"
+                      placeholder="Photo URL *"
+                      required
                       aria-label="Profile Photo URL"
                       className="w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 pr-4 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                     />
@@ -322,7 +346,8 @@ export default function RegisterPage() {
                     name="password"
                     value={form.password}
                     onChange={handleChange}
-                    placeholder="Password"
+                    placeholder="Password *"
+                    required
                     aria-label="Password"
                     className="w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 pr-11 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                   />

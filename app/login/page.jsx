@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import Navbar from "@/components/Navbar";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, LogIn, Loader2 } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
@@ -33,9 +34,12 @@ export default function LoginPage() {
     });
 
     if (authError) {
-      setError(authError.message || "Failed to sign in. Please check your credentials.");
+      const message = authError.message || "Failed to sign in. Please check your credentials.";
+      setError(message);
+      toast.error(message);
       setIsLoading(false);
     } else {
+      toast.success("Logged in successfully! Welcome back.");
       router.push("/");
     }
   };
@@ -43,6 +47,7 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     setError("");
+    toast.info("Redirecting to Google...");
     await signIn.social({
       provider: "google",
       callbackURL: window.location.origin + "/",

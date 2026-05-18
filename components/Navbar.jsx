@@ -120,7 +120,7 @@ export default function Navbar() {
                     alt={session.user.name || "User"}
                     height={20}
                     width={20}
-                    className="object-cover rounded-full"
+                    className="w-5 h-5 object-cover rounded-full"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
@@ -217,10 +217,12 @@ export default function Navbar() {
             <div className="space-y-2">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                 {session.user.image ? (
-                  <img
+                  <Image
                     src={session.user.image}
                     alt={session.user.name || "User"}
-                    className="w-8 h-8 rounded-full object-cover shrink-0"
+                    height={20}
+                    width={20}
+                    className="w-5 h-5 object-cover rounded-full"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
