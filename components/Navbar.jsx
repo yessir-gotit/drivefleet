@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 // Todo: gotta make it tablet friendly
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -26,7 +26,7 @@ const navLinks = [
   { href: "/dashboard/bookings", label: "My Bookings", icon: CalendarDays },
 ];
 
-export default function Navbar() {
+function Navbar() {
   const [scrolled,    setScrolled]    = useState(false);
   const [mobileOpen,  setMobileOpen]  = useState(false);
   const pathname = usePathname();
@@ -272,3 +272,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default memo(Navbar);

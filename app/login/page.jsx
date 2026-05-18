@@ -77,7 +77,7 @@ export default function LoginPage() {
       <Navbar />
       <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base-100 pt-10">
 
-        {/* ── Ambient Background ── */}
+        {/*  Ambient Background  */}
         <div className="absolute inset-0 z-0" aria-hidden="true">
           <Image
             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2670&auto=format&fit=crop"
@@ -88,7 +88,7 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* ── Gradient Overlays ── */}
+        {/*  Gradient Overlays  */}
         <div
           className="absolute inset-0 z-[1]"
           style={{
@@ -102,10 +102,10 @@ export default function LoginPage() {
           aria-hidden="true"
         />
 
-        {/* ── Ambient Glow ── */}
+        {/*  Ambient Glow  */}
         <div className="ambient-glow z-[1]" aria-hidden="true" />
 
-        {/* ── Edge Fades ── */}
+        {/*  Edge Fades  */}
         <div
           className="absolute bottom-0 left-0 right-0 h-40 z-[1] bg-linear-to-t from-base-100 to-transparent"
           aria-hidden="true"
@@ -115,18 +115,12 @@ export default function LoginPage() {
           aria-hidden="true"
         />
 
-        {/* ── Section Number ── */}
-        <span
-          className="absolute top-16 md:top-24 right-6 md:right-16 font-heading font-black text-[10rem] md:text-[18rem] text-white/[0.025] leading-none select-none pointer-events-none z-0"
-          aria-hidden="true"
-        >
-          01
-        </span>
+        
 
-        {/* ── Main Content ── */}
+        {/*  Main Content  */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 flex flex-col items-center">
 
-          {/* ── Eyebrow ── */}
+          {/*  Eyebrow  */}
           <div
             className="animate-in flex items-center gap-3 mb-8 md:mb-10"
             style={{ animationDelay: "0ms" }}
@@ -138,7 +132,7 @@ export default function LoginPage() {
             <span className="h-px w-8 bg-white/20" aria-hidden="true" />
           </div>
 
-          {/* ── Hero Typography ── */}
+          {/*  Hero Typography  */}
           <div
             className="animate-in text-center"
             style={{ animationDelay: "80ms" }}
@@ -159,14 +153,14 @@ export default function LoginPage() {
             </h1>
           </div>
 
-          {/* ── Divider ── */}
+          {/*  Divider  */}
           <div
             className="animate-in w-14 h-px bg-primary/60 mt-6 md:mt-8 mb-6 md:mb-8"
             style={{ animationDelay: "120ms" }}
             aria-hidden="true"
           />
 
-          {/* ── Tagline ── */}
+          {/*  Tagline  */}
           <p
             className="animate-in text-sm md:text-base text-base-content/45 font-light leading-relaxed max-w-md text-center px-2 mb-10 md:mb-14"
             style={{ animationDelay: "160ms" }}
@@ -174,7 +168,7 @@ export default function LoginPage() {
             Log back into your DriveFleet account and pick up where you left off.
           </p>
 
-          {/* ── Form Card ── */}
+          {/*  Form Card  */}
           <div
             className="animate-in w-full max-w-lg"
             style={{ animationDelay: "240ms" }}
@@ -192,7 +186,7 @@ export default function LoginPage() {
 
               <form className="space-y-5" onSubmit={handleSignIn}>
 
-                {/* ── Email ── */}
+                {/*  Email  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
                     <Mail className="w-4 h-4" strokeWidth={2} />
@@ -208,7 +202,7 @@ export default function LoginPage() {
                   />
                 </div>
 
-                {/* ── Password ── */}
+                {/*  Password  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
                     <Lock className="w-4 h-4" strokeWidth={2} />
@@ -237,7 +231,7 @@ export default function LoginPage() {
                   </button>
                 </div>
 
-                {/* ── Forgot Password + Remember Me ── */}
+                {/*  Forgot Password and Remember Me  */}
                 <div className="flex items-center justify-between -mt-1">
                   {/* Remember Me */}
                   <label className="flex items-center gap-2.5 cursor-pointer group">
@@ -287,14 +281,14 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                {/* ── Error Message ── */}
+                {/*  Error Message */}
                 {error && (
                   <div className="rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400 text-center">
                     {error}
                   </div>
                 )}
 
-                {/* ── Submit Button ── */}
+                {/*  Submit Button  */}
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -310,7 +304,7 @@ export default function LoginPage() {
                 </button>
               </form>
 
-              {/* ── Divider ── */}
+              {/*  Divider  */}
               <div className="relative my-8">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/8" />
@@ -322,7 +316,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* ── Google Button ── */}
+              {/*  Google Button  */}
               <div className="flex justify-center">
                 <button
                   type="button"
