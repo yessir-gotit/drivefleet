@@ -18,7 +18,7 @@ import {
   X,
   Loader2,
 } from "lucide-react";
-import { signUp, signIn } from "@/lib/auth-client";
+import { signUp, signIn, signOut } from "@/lib/auth-client";
 
 function getPasswordStrength(password) {
   if (!password) return { score: 0, label: "", bars: 0, color: "" };
@@ -91,23 +91,29 @@ export default function RegisterPage() {
       return;
     }
 
-    const { error: authError } = await signUp.email({
+    await signUp.email({
       name: form.name,
       email: form.email,
       password: form.password,
       image: form.photoUrl || undefined,
-      callbackURL: "/",
+    }, {
+      onSuccess: async () => {
+        toast.success("Account created successfully! Please log in to continue.");
+        await signOut({
+          fetchOptions: {
+            onSuccess: () => {
+              router.push("/login");
+            },
+          },
+        });
+      },
+      onError: (ctx) => {
+        const message = ctx.error?.message || "Failed to create account. Please try again.";
+        setError(message);
+        toast.error(message);
+        setIsLoading(false);
+      },
     });
-
-    if (authError) {
-      const message = authError.message || "Failed to create account. Please try again.";
-      setError(message);
-      toast.error(message);
-      setIsLoading(false);
-    } else {
-      toast.success("Account created successfully! Welcome to DriveFleet.");
-      router.push("/");
-    }
   };
 
   const handleGoogleSignIn = async () => {
