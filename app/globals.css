@@ -1,1 +1,105 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "drivefleet-luxury";
+  default: true;
+  color-scheme: dark;
+
+  --color-primary: #0066FF;
+  --color-primary-content: #FFFFFF;
+  
+
+  --color-secondary: #27272A;
+  --color-secondary-content: #FFFFFF;
+  
+  --color-accent: #FF3B30;
+  --color-accent-content: #FFFFFF;
+  
+
+  --color-base-100: #050505; 
+  --color-base-200: #111111; 
+  --color-base-300: #1C1C1E; 
+  --color-base-content: #F4F4F5; 
+  
+
+  --radius-selector: 0.5rem;
+  --radius-field: 9999px;
+  --radius-box: 1rem; 
+}
+
+@theme {
+
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-base-100);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em; 
+  font-weight: 700;
+}
+
+
+::selection {
+  background-color: rgba(0, 102, 255, 0.3);
+  color: #ffffff;
+}
+
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-base-300);
+  border-radius: 10px;
+}
+
+
+.glass-premium {
+  background: rgba(17, 17, 17, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.card-hover-effect {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover-effect:hover {
+  transform: translateY(-6px);
+  background: rgba(28, 28, 30, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+
+.ambient-glow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+}
