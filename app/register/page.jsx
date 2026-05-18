@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import {
   User,
@@ -14,13 +15,15 @@ import {
   ArrowRight,
   Check,
   X,
+  Loader2,
 } from "lucide-react";
+import { signUp, signIn } from "@/lib/auth-client";
 
 function getPasswordStrength(password) {
   if (!password) return { score: 0, label: "", bars: 0, color: "" };
 
   let score = 0;
-  if (password.length >= 6) score++;
+  if (password.length >= 8) score++;
   if (/[A-Z]/.test(password)) score++;
   if (/[a-z]/.test(password)) score++;
 
@@ -33,12 +36,13 @@ function getPasswordStrength(password) {
 }
 
 const PASSWORD_CRITERIA = [
-  { label: "At least 6 characters", test: (p) => p.length >= 6 },
+  { label: "At least 8 characters", test: (p) => p.length >= 8 },
   { label: "Contains an uppercase letter", test: (p) => /[A-Z]/.test(p) },
   { label: "Contains a lowercase letter", test: (p) => /[a-z]/.test(p) },
 ];
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -48,11 +52,50 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [previewError, setPreviewError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (name === "photoUrl") setPreviewError(false);
+    if (error) setError("");
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    if (!termsAccepted) {
+      setError("You must accept the Terms & Conditions to create an account.");
+      setIsLoading(false);
+      return;
+    }
+
+    const { error: authError } = await signUp.email({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+      image: form.photoUrl || undefined,
+      callbackURL: "/",
+    });
+
+    if (authError) {
+      setError(authError.message || "Failed to create account. Please try again.");
+      setIsLoading(false);
+    } else {
+      router.push("/");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    setError("");
+    await signIn.social({
+      provider: "google",
+      callbackURL: window.location.origin + "/",
+    });
   };
 
   const strength = getPasswordStrength(form.password);
@@ -431,7 +474,9 @@ export default function RegisterPage() {
                 {/* Google button */}
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2.5 px-16 py-3 rounded-xl border border-white/10 text-sm font-medium text-base-content/55 hover:text-base-content hover:border-white/20 hover:bg-white/4 transition-all duration-200 cursor-pointer"
+                  onClick={handleGoogleSignIn}
+                  disabled={isLoading}
+                  className="inline-flex items-center justify-center gap-2.5 px-16 py-3 rounded-xl border border-white/10 text-sm font-medium text-base-content/55 hover:text-base-content hover:border-white/20 hover:bg-white/4 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                     <path

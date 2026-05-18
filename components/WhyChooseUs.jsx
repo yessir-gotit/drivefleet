@@ -1,3 +1,4 @@
+// Todo: gotta make it tablet friendly
 import {
   ShieldCheck,
   Zap,
@@ -73,7 +74,7 @@ export default function WhyChooseUs() {
             <span className="h-px w-12 bg-primary/40" />
           </div>
 
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.05] text-base-content">
+          <h2 className="font-heading text-[42px] md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.05] text-base-content">
             Everything You Need,
             <br />
             <span

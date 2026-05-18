@@ -4,7 +4,7 @@ import { ShieldCheck, Zap, Star, ArrowRight } from "lucide-react";
 
 export default function About() {
   return (
-    <section className="relative overflow-hidden bg-base-200 py-24 md:py-36" id="about">
+    <section className="relative overflow-hidden bg-base-200 py-24 mt-3 md:py-36" id="about">
       <span
         className="text-[18rem] md:text-[22rem] font-heading font-black text-white/2.5 absolute top-0 right-0 leading-none select-none pointer-events-none z-0 "
         aria-hidden="true"

@@ -1,5 +1,6 @@
 "use client";
-
+import Image from "next/image";
+// Todo: gotta make it tablet friendly
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,7 +13,11 @@ import {
   X,
   LogIn,
   UserPlus,
+  Loader2,
+  User,
+  LogOut,
 } from "lucide-react";
+import { useSession, signOut } from "@/lib/auth-client";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home        },
@@ -25,6 +30,7 @@ export default function Navbar() {
   const [scrolled,    setScrolled]    = useState(false);
   const [mobileOpen,  setMobileOpen]  = useState(false);
   const pathname = usePathname();
+  const { data: session, isPending } = useSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -36,6 +42,17 @@ export default function Navbar() {
 
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  const handleSignOut = async () => {
+    closeMobile();
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/";
+        },
+      },
+    });
+  };
 
   return (
     <nav
@@ -90,21 +107,57 @@ export default function Navbar() {
 
 
         <div className="hidden md:flex items-center gap-2.5">
-          {/* TODO: replace with real auth session check */}
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium text-[#F4F4F5]/55 border border-white/[0.10] hover:border-white/20 hover:text-[#F4F4F5] hover:bg-white/[0.04] transition-all duration-200"
-          >
-            <LogIn className="w-3.5 h-3.5" strokeWidth={2} />
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold text-white bg-primary hover:bg-primary/90 hover:-translate-y-px hover:shadow-[0_0_24px_rgba(0,102,255,0.4)] transition-all duration-200"
-          >
-            <UserPlus className="w-3.5 h-3.5" strokeWidth={2} />
-            Sign Up
-          </Link>
+          {isPending ? (
+            <div className="flex items-center gap-2 px-4 py-1.5">
+              <Loader2 className="w-4 h-4 animate-spin text-[#F4F4F5]/40" strokeWidth={2} />
+            </div>
+          ) : session?.user ? (
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/4 border border-white/6">
+                {session.user.image ? (
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name || "User"}
+                    height={20}
+                    width={20}
+                    className="object-cover rounded-full"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                    <User className="w-3.5 h-3.5 text-primary" strokeWidth={2} />
+                  </div>
+                )}
+                <span className="text-sm font-medium text-[#F4F4F5]/80 max-w-[100px] truncate">
+                  {session.user.name || session.user.email}
+                </span>
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#F4F4F5]/40 border border-white/[0.06] hover:text-red-400 hover:border-red-400/30 hover:bg-red-500/10 transition-all duration-200 cursor-pointer"
+                aria-label="Sign Out"
+              >
+                <LogOut className="w-3.5 h-3.5" strokeWidth={2} />
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium text-[#F4F4F5]/55 border border-white/[0.10] hover:border-white/20 hover:text-[#F4F4F5] hover:bg-white/[0.04] transition-all duration-200"
+              >
+                <LogIn className="w-3.5 h-3.5" strokeWidth={2} />
+                Log In
+              </Link>
+              <Link
+                href="/register"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold text-white bg-primary hover:bg-primary/90 hover:-translate-y-px hover:shadow-[0_0_24px_rgba(0,102,255,0.4)] transition-all duration-200"
+              >
+                <UserPlus className="w-3.5 h-3.5" strokeWidth={2} />
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -156,22 +209,62 @@ export default function Navbar() {
           <div className="h-px bg-white/6 my-3" />
 
           {/* Mobile auth */}
-          <Link
-            href="/login"
-            onClick={closeMobile}
-            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-medium text-[#F4F4F5]/55 border border-white/[0.10] hover:border-white/20 hover:text-[#F4F4F5] hover:bg-white/[0.04] transition-all duration-200"
-          >
-            <LogIn className="w-4 h-4" strokeWidth={2} />
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            onClick={closeMobile}
-            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#0066FF] hover:bg-[#0066FF]/90 transition-all duration-200 mt-2"
-          >
-            <UserPlus className="w-4 h-4" strokeWidth={2} />
-            Sign Up
-          </Link>
+          {isPending ? (
+            <div className="flex items-center justify-center py-3">
+              <Loader2 className="w-5 h-5 animate-spin text-[#F4F4F5]/40" strokeWidth={2} />
+            </div>
+          ) : session?.user ? (
+            <div className="space-y-2">
+              <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                {session.user.image ? (
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name || "User"}
+                    className="w-8 h-8 rounded-full object-cover shrink-0"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                    <User className="w-4 h-4 text-primary" strokeWidth={2} />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-[#F4F4F5]/80 truncate">
+                    {session.user.name || "User"}
+                  </p>
+                  <p className="text-xs text-[#F4F4F5]/40 truncate">
+                    {session.user.email}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-medium text-red-400/70 border border-red-400/15 hover:text-red-400 hover:border-red-400/30 hover:bg-red-500/10 transition-all duration-200 cursor-pointer"
+              >
+                <LogOut className="w-4 h-4" strokeWidth={2} />
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                onClick={closeMobile}
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-medium text-[#F4F4F5]/55 border border-white/[0.10] hover:border-white/20 hover:text-[#F4F4F5] hover:bg-white/[0.04] transition-all duration-200"
+              >
+                <LogIn className="w-4 h-4" strokeWidth={2} />
+                Log In
+              </Link>
+              <Link
+                href="/register"
+                onClick={closeMobile}
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#0066FF] hover:bg-[#0066FF]/90 transition-all duration-200 mt-2"
+              >
+                <UserPlus className="w-4 h-4" strokeWidth={2} />
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
