@@ -70,20 +70,12 @@ function validateForm(form) {
     errors.seatCapacity = "Seat capacity must be at least 1.";
   }
 
-  if (
-    !form.pickupLocation.trim() ||
-    form.pickupLocation.trim().length < 3
-  ) {
-    errors.pickupLocation =
-      "Pickup location must be at least 3 characters.";
+  if (!form.pickupLocation.trim() || form.pickupLocation.trim().length < 3) {
+    errors.pickupLocation = "Pickup location must be at least 3 characters.";
   }
 
-  if (
-    !form.description.trim() ||
-    form.description.trim().length < 10
-  ) {
-    errors.description =
-      "Description must be at least 10 characters.";
+  if (!form.description.trim() || form.description.trim().length < 10) {
+    errors.description = "Description must be at least 10 characters.";
   }
 
   return errors;
@@ -127,16 +119,18 @@ export default function AddCarPage() {
 
     setIsLoading(true);
 
-    //  Placeholder: replace with actual API call 
     try {
-      // TODO: POST to /api/cars
-      // const res = await fetch("/api/cars", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(form),
-      // });
-      // if (!res.ok) throw new Error("Failed to add car");
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await fetch("http://localhost:5000/api/cars", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to add car");
+      }
 
       toast.success("Car added to fleet successfully! 🚗");
       router.push("/");
@@ -147,7 +141,7 @@ export default function AddCarPage() {
     }
   };
 
-  //  Shared input class 
+  //  Shared input class
   const inputBase =
     "w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200";
 
@@ -255,18 +249,13 @@ export default function AddCarPage() {
       <Navbar />
 
       <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base-100 pt-10">
-
         <div className="absolute inset-0 z-0 dot-grid" aria-hidden="true" />
 
         {/* Ambient Glow */}
         <div className="ambient-glow z-[1]" aria-hidden="true" />
 
-
-        
-
         {/*  Main Content  */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 flex flex-col items-center">
-
           {/*  Eyebrow  */}
           <div
             className="animate-in flex items-center gap-3 mb-8 md:mb-10"
@@ -326,9 +315,7 @@ export default function AddCarPage() {
               </div>
 
               <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-
                 <div className="grid md:grid-cols-2 gap-5">
-
                   {/*  Column 1  */}
 
                   {/*  Car Name */}
@@ -512,17 +499,12 @@ export default function AddCarPage() {
                       </div>
                     )}
                   </div>
-
                 </div>
-
-
 
                 {/*  Description  */}
                 <div className="relative">
                   <div className="relative group">
-                    <span
-                      className={`${iconWrapper} items-start pt-4`}
-                    >
+                    <span className={`${iconWrapper} items-start pt-4`}>
                       <FileText className="w-4 h-4" strokeWidth={2} />
                     </span>
                     <textarea
@@ -569,10 +551,7 @@ export default function AddCarPage() {
                   className="btn-glow w-full inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-primary text-white text-sm font-semibold tracking-wide hover:bg-primary/90 hover:-translate-y-px hover:shadow-[0_0_36px_rgba(0,102,255,0.5)] transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   {isLoading ? (
-                    <Loader2
-                      className="w-4 h-4 animate-spin"
-                      strokeWidth={2}
-                    />
+                    <Loader2 className="w-4 h-4 animate-spin" strokeWidth={2} />
                   ) : (
                     <Car className="w-4 h-4" strokeWidth={2} />
                   )}
