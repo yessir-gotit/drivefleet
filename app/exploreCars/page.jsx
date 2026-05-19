@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useSession } from "@/lib/auth-client";
 import {
   Search,
   Car,
@@ -17,7 +19,6 @@ import {
   RefreshCw,
   AlertCircle,
 } from "lucide-react";
-
 
 const CAR_TYPES = [
   "All",
@@ -35,7 +36,6 @@ const CAR_TYPES = [
 
 const API_URL = "http://localhost:5000/api/cars";
 
-
 async function fetchCars({ carType, search, signal }) {
   const params = new URLSearchParams();
   if (carType && carType !== "All") params.set("carType", carType);
@@ -49,7 +49,6 @@ async function fetchCars({ carType, search, signal }) {
   return res.json();
 }
 
-
 function formatRate(rate) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -57,7 +56,6 @@ function formatRate(rate) {
     maximumFractionDigits: 0,
   }).format(rate);
 }
-
 
 function SkeletonCard() {
   return (
@@ -93,7 +91,6 @@ function SkeletonCard() {
     </div>
   );
 }
-
 
 function CarCard({ car }) {
   const [imgError, setImgError] = useState(false);
@@ -132,7 +129,6 @@ function CarCard({ car }) {
           className="absolute inset-0 bg-linear-to-t from-base-200/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           aria-hidden="true"
         />
-
       </div>
 
       {/*  Content  */}
@@ -147,7 +143,6 @@ function CarCard({ car }) {
           </span>
         </div>
 
-        
         <div className="flex-1">
           {/* Description */}
           <p className="text-sm text-base-content/50 leading-relaxed line-clamp-2 mb-4">
@@ -210,8 +205,10 @@ function CarCard({ car }) {
   );
 }
 
-
 export default function ExploreCarsPage() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
+
   const [cars, setCars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -220,7 +217,7 @@ export default function ExploreCarsPage() {
   const [search, setSearch] = useState("");
   const [carType, setCarType] = useState("All");
 
-  //  Fetch on mount and when filters change 
+  //  Fetch on mount and when filters change
   useEffect(() => {
     let cancelled = false;
 
@@ -229,7 +226,6 @@ export default function ExploreCarsPage() {
       setError(null);
 
       try {
-       
         const controller = new AbortController();
         const [data] = await Promise.all([
           fetchCars({ carType, search, signal: controller.signal }),
@@ -254,9 +250,30 @@ export default function ExploreCarsPage() {
     };
   }, [carType, search]);
 
+  // Route protection
+  useEffect(() => {
+    if (!isPending && !session?.user) {
+      router.replace("/login");
+    }
+  }, [session, isPending, router]);
+
+  if (isPending || !session?.user) {
+    return (
+      <>
+        <Navbar />
+        <main className="relative min-h-screen flex items-center justify-center bg-base-100">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <p className="text-sm text-base-content/40">
+              {isPending ? "Checking authentication..." : "Redirecting..."}
+            </p>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   const resultsCount = cars.length;
-
 
   return (
     <>
@@ -424,10 +441,7 @@ export default function ExploreCarsPage() {
               {/* Car Type Filter */}
               <div className="relative sm:w-48">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30">
-                  <SlidersHorizontal
-                    className="w-4 h-4"
-                    strokeWidth={2}
-                  />
+                  <SlidersHorizontal className="w-4 h-4" strokeWidth={2} />
                 </span>
                 <select
                   value={carType}
@@ -537,10 +551,7 @@ export default function ExploreCarsPage() {
                     key={car._id}
                     className="animate-in h-full"
                     style={{
-                      animationDelay: `${Math.min(
-                        80 + index * 60,
-                        500
-                      )}ms`,
+                      animationDelay: `${Math.min(80 + index * 60, 500)}ms`,
                     }}
                   >
                     <CarCard car={car} />

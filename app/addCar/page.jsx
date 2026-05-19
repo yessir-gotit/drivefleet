@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Navbar from "@/components/Navbar";
+import { useSession } from "@/lib/auth-client";
 import {
   Car,
   DollarSign,
@@ -83,10 +84,33 @@ function validateForm(form) {
 
 export default function AddCarPage() {
   const router = useRouter();
+  const { data: session, isPending } = useSession();
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [previewError, setPreviewError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isPending && !session?.user) {
+      router.replace("/login");
+    }
+  }, [session, isPending, router]);
+
+  if (isPending || !session?.user) {
+    return (
+      <>
+        <Navbar />
+        <main className="relative min-h-screen flex items-center justify-center bg-base-100">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <p className="text-sm text-base-content/40">
+              {isPending ? "Checking authentication..." : "Redirecting..."}
+            </p>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -196,7 +220,6 @@ export default function AddCarPage() {
           z-index: 0;
         }
 
-        /* ── Custom Toggle ── */
         .toggle-track {
           width: 44px;
           height: 24px;
