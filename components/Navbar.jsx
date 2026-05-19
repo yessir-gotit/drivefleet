@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 // Todo: gotta make it tablet friendly
+import ExploreCarsPage from "@/app/exploreCars/page";
 import { useState, useEffect, memo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,7 +22,7 @@ import { useSession, signOut } from "@/lib/auth-client";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home        },
-  { href: "/cars", label: "Explore Cars", icon: Car         },
+  { href: "/exploreCars", label: "Explore Cars", icon: Car         },
   { href: "/addCar", label: "Add Car", icon: Plus        },
   { href: "/dashboard/bookings", label: "My Bookings", icon: CalendarDays },
 ];
