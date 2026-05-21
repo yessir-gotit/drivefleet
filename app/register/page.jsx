@@ -160,7 +160,6 @@ export default function RegisterPage() {
           />
         </div>
 
-        {/*  Gradient Overlays  */}
         <div
           className="absolute inset-0 z-1"
           style={{
@@ -174,10 +173,8 @@ export default function RegisterPage() {
           aria-hidden="true"
         />
 
-        {/* Ambient Glow */}
         <div className="ambient-glow z-[1]" aria-hidden="true" />
 
-        {/* Edg Fades */}
         <div
           className="absolute bottom-0 left-0 right-0 h-40 z-1 bg-linear-to-t from-base-100 to-transparent"
           aria-hidden="true"
@@ -187,7 +184,6 @@ export default function RegisterPage() {
           aria-hidden="true"
         />
 
-        {/* Main Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 flex flex-col items-center">
   
           <div
@@ -225,14 +221,12 @@ export default function RegisterPage() {
             </h1>
           </div>
 
-          {/*  Divider  */}
           <div
             className="animate-in w-14 h-px bg-primary/60 mt-6 md:mt-8 mb-6 md:mb-8"
             style={{ animationDelay: "120ms" }}
             aria-hidden="true"
           />
 
-          {/*  Tagline  */}
           <p
             className="animate-in text-sm md:text-base text-base-content/45 font-light leading-relaxed max-w-md text-center px-2 mb-10 md:mb-14"
             style={{ animationDelay: "160ms" }}
@@ -241,13 +235,11 @@ export default function RegisterPage() {
             automotive experiences.
           </p>
 
-          {/*  Form */}
           <div
             className="animate-in w-full max-w-lg"
             style={{ animationDelay: "240ms" }}
           >
             <div className="glass-premium rounded-2xl p-7 md:p-10">
-              {/* Card Header */}
               <div className="mb-8 text-center">
                 <h2 className="font-heading text-2xl font-bold tracking-tight text-base-content">
                   Welcome to DriveFleet
@@ -258,7 +250,6 @@ export default function RegisterPage() {
               </div>
 
               <form className="space-y-5" onSubmit={handleSignUp}>
-                {/*  Name  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
                     <User className="w-4 h-4" strokeWidth={2} />
@@ -275,7 +266,6 @@ export default function RegisterPage() {
                   />
                 </div>
 
-                {/*  Email  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
                     <Mail className="w-4 h-4" strokeWidth={2} />
@@ -292,7 +282,6 @@ export default function RegisterPage() {
                   />
                 </div>
 
-                {/*  Photo url  */}
                 <div>
                   <div className="relative group">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
@@ -310,15 +299,16 @@ export default function RegisterPage() {
                     />
                   </div>
 
-                  {/* Photo Preview */}
                   {form.photoUrl && !previewError && (
                     <div className="mt-3 flex items-center gap-3">
                       <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/10 shrink-0 bg-base-300">
-                        <img
+                        <Image
                           src={form.photoUrl}
                           alt="Profile preview"
-
-                          className="w-full h-full object-cover"
+                          fill
+                          unoptimized
+                          sizes="40px"
+                          className="object-cover"
                           onError={() => setPreviewError(true)}
                         />
                       </div>
@@ -342,7 +332,6 @@ export default function RegisterPage() {
                   )}
                 </div>
 
-                {/*  Password  */}
                 <div className="relative group">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30 group-focus-within:text-primary/70 transition-colors duration-200">
                     <Lock className="w-4 h-4" strokeWidth={2} />
@@ -374,7 +363,6 @@ export default function RegisterPage() {
                   </button>
                 </div>
 
-                {/*  Password Strength  */}
                 {form.password && (
                   <div className="space-y-1.5 -mt-1">
                     <div className="flex gap-1.5">
@@ -400,7 +388,6 @@ export default function RegisterPage() {
                   </div>
                 )}
 
-                {/*  Password Req  */}
                 {form.password && (
                   <ul className="space-y-2 -mt-1">
                     {PASSWORD_CRITERIA.map((criterion, index) => {
@@ -433,7 +420,6 @@ export default function RegisterPage() {
                   </ul>
                 )}
 
-                {/* Terms Checkbox  */}
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <span className="relative mt-0.5 shrink-0">
                     <input
@@ -478,7 +464,6 @@ export default function RegisterPage() {
                   </span>
                 </label>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   className="btn-glow w-full inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-primary text-white text-sm font-semibold tracking-wide hover:bg-primary/90 hover:-translate-y-px hover:shadow-[0_0_36px_rgba(0,102,255,0.5)] transition-all duration-300 cursor-pointer"
@@ -488,7 +473,6 @@ export default function RegisterPage() {
                 </button>
               </form>
 
-              {/* Divider */}
               <div className="relative my-8">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/8" />
@@ -502,7 +486,6 @@ export default function RegisterPage() {
 
           
               <div className="max-w-2xl w-1/2 flex justify-center align-middle mx-auto">
-                {/* Google button */}
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
@@ -531,7 +514,6 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              {/*  Login Link  */}
               <p className="mt-8 text-center text-sm text-base-content/45">
                 Already have an account?{" "}
                 <Link

@@ -118,7 +118,6 @@ export default function AddCarPage() {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // Clear field error on change
     if (errors[name]) {
       setErrors((prev) => {
         const next = { ...prev };
@@ -146,6 +145,7 @@ export default function AddCarPage() {
     try {
       const res = await fetch("http://localhost:5000/api/cars", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
@@ -165,7 +165,6 @@ export default function AddCarPage() {
     }
   };
 
-  //  Shared input class
   const inputBase =
     "w-full bg-base-300/50 border border-white/10 rounded-xl px-4 py-3.5 pl-10 text-sm text-base-content placeholder:text-base-content/30 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200";
 
@@ -197,13 +196,11 @@ export default function AddCarPage() {
           animation: pulse-glow 3s ease-in-out infinite;
         }
 
-        /* ── Subtle Dot Grid Texture ── */
         .dot-grid {
           background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
           background-size: 32px 32px;
         }
 
-        /* ── Watermark Monogram ── */
         .watermark {
           position: absolute;
           top: 50%;
@@ -274,12 +271,9 @@ export default function AddCarPage() {
       <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base-100 pt-10">
         <div className="absolute inset-0 z-0 dot-grid" aria-hidden="true" />
 
-        {/* Ambient Glow */}
         <div className="ambient-glow z-[1]" aria-hidden="true" />
 
-        {/*  Main Content  */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 flex flex-col items-center">
-          {/*  Eyebrow  */}
           <div
             className="animate-in flex items-center gap-3 mb-8 md:mb-10"
             style={{ animationDelay: "0ms" }}
@@ -291,7 +285,6 @@ export default function AddCarPage() {
             <span className="h-px w-8 bg-white/20" aria-hidden="true" />
           </div>
 
-          {/*  Hero Typography  */}
           <div
             className="animate-in text-center"
             style={{ animationDelay: "80ms" }}
@@ -306,14 +299,12 @@ export default function AddCarPage() {
             </h1>
           </div>
 
-          {/*  Divider  */}
           <div
             className="animate-in w-14 h-px bg-primary/60 mt-6 md:mt-8 mb-6 md:mb-8"
             style={{ animationDelay: "120ms" }}
             aria-hidden="true"
           />
 
-          {/*  Tagline  */}
           <p
             className="animate-in text-sm md:text-base text-base-content/45 font-light leading-relaxed max-w-md text-center px-2 mb-10 md:mb-14"
             style={{ animationDelay: "160ms" }}
@@ -321,13 +312,11 @@ export default function AddCarPage() {
             Add a new vehicle to your DriveFleet inventory and start earning.
           </p>
 
-          {/*  Form Card  */}
           <div
             className="animate-in w-full max-w-2xl"
             style={{ animationDelay: "240ms" }}
           >
             <div className="glass-premium rounded-2xl p-7 md:p-10">
-              {/* Card Header */}
               <div className="mb-8 text-center">
                 <h2 className="font-heading text-2xl font-bold tracking-tight text-base-content">
                   Vehicle Details
@@ -339,9 +328,6 @@ export default function AddCarPage() {
 
               <form className="space-y-5" onSubmit={handleSubmit} noValidate>
                 <div className="grid md:grid-cols-2 gap-5">
-                  {/*  Column 1  */}
-
-                  {/*  Car Name */}
                   <div className="relative">
                     <div className="relative group">
                       <span className={iconWrapper}>
@@ -363,7 +349,6 @@ export default function AddCarPage() {
                     )}
                   </div>
 
-                  {/*  Daily Rent Price */}
                   <div className="relative">
                     <div className="relative group">
                       <span className={iconWrapper}>
@@ -387,7 +372,6 @@ export default function AddCarPage() {
                     )}
                   </div>
 
-                  {/*  Car Type  */}
                   <div className="relative">
                     <div className="relative group">
                       <span className={iconWrapper}>
@@ -419,7 +403,6 @@ export default function AddCarPage() {
                     )}
                   </div>
 
-                  {/*  Seat Capacity */}
                   <div className="relative">
                     <div className="relative group">
                       <span className={iconWrapper}>
@@ -443,9 +426,6 @@ export default function AddCarPage() {
                     )}
                   </div>
 
-                  {/*  Column 2  */}
-
-                  {/*  Pickup Location */}
                   <div className="relative">
                     <div className="relative group">
                       <span className={iconWrapper}>
@@ -467,7 +447,6 @@ export default function AddCarPage() {
                     )}
                   </div>
 
-                  {/*  Image URL */}
                   <div>
                     <div>
                       <div className="relative group">
@@ -490,7 +469,6 @@ export default function AddCarPage() {
                       )}
                     </div>
 
-                    {/* Image Preview */}
                     {form.imageUrl && !previewError && (
                       <div className="mt-3 flex items-center gap-3">
                         <div className="relative w-16 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0 bg-base-300">
@@ -524,7 +502,6 @@ export default function AddCarPage() {
                   </div>
                 </div>
 
-                {/*  Description  */}
                 <div className="relative">
                   <div className="relative group">
                     <span className={`${iconWrapper} items-start pt-4`}>
@@ -545,7 +522,6 @@ export default function AddCarPage() {
                   )}
                 </div>
 
-                {/*  Availability Toggle */}
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-sm text-base-content/70">
                     Available for rent
@@ -567,7 +543,6 @@ export default function AddCarPage() {
                   </button>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isLoading}

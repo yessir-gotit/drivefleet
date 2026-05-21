@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useSession } from "@/lib/auth-client";
 import {
   Search,
   Car,
@@ -60,29 +58,24 @@ function formatRate(rate) {
 function SkeletonCard() {
   return (
     <div className="relative rounded-2xl border border-white/[0.07] bg-base-200 overflow-hidden animate-pulse">
-      {/* Image skeleton */}
       <div className="aspect-video bg-base-300/60" />
 
       <div className="p-5 space-y-4">
-        {/* Title ande  badge row */}
         <div className="flex items-center justify-between">
           <div className="h-5 w-32 rounded-full bg-base-300/60" />
           <div className="h-5 w-20 rounded-full bg-base-300/60" />
         </div>
 
-        {/* Description */}
         <div className="space-y-2">
           <div className="h-3 w-full rounded-full bg-base-300/60" />
           <div className="h-3 w-3/4 rounded-full bg-base-300/60" />
         </div>
 
-        {/* Specs */}
         <div className="flex gap-4">
           <div className="h-4 w-20 rounded-full bg-base-300/60" />
           <div className="h-4 w-24 rounded-full bg-base-300/60" />
         </div>
 
-        {/* Price and CTA */}
         <div className="flex items-center justify-between pt-2 border-t border-white/6">
           <div className="h-6 w-24 rounded-full bg-base-300/60" />
           <div className="h-9 w-28 rounded-full bg-base-300/60" />
@@ -100,14 +93,12 @@ function CarCard({ car }) {
       className="group relative rounded-2xl border border-white/[0.07] bg-base-200 overflow-hidden transition-all duration-500 hover:border-white/[0.14] hover:-translate-y-1.5 flex flex-col h-full"
       style={{ transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)" }}
     >
-      {/* ── Hover glow  ── */}
       <div
         className="absolute -top-12 -left-12 w-32 h-32 rounded-full bg-primary/0 group-hover:bg-primary/10 blur-2xl transition-all duration-500 pointer-events-none z-10"
         aria-hidden="true"
       />
 
-      {/*  Image  */}
-      <div className="relative aspect-video overflow-hidden bg-base-300">
+      <div className="relative aspect-video overflow-hidden bg-base-200 isolate">
         {!imgError ? (
           <Image
             src={car.imageUrl}
@@ -119,21 +110,18 @@ function CarCard({ car }) {
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full h-full flex items-center justify-center bg-base-300">
             <Car className="w-10 h-10 text-base-content/20" strokeWidth={1} />
           </div>
         )}
 
-        {/* Image overlay gradient */}
         <div
-          className="absolute inset-0 bg-linear-to-t from-base-200/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 bg-linear-to-t from-base-200 via-base-200/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           aria-hidden="true"
         />
       </div>
 
-      {/*  Content  */}
       <div className="p-5 flex flex-col flex-1">
-        {/* Name and Type */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <h3 className="font-heading text-lg font-bold tracking-tight text-base-content leading-tight">
             {car.carName}
@@ -144,12 +132,10 @@ function CarCard({ car }) {
         </div>
 
         <div className="flex-1">
-          {/* Description */}
           <p className="text-sm text-base-content/50 leading-relaxed line-clamp-2 mb-4">
             {car.description}
           </p>
 
-          {/* Specs */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-4">
             <div className="flex items-center gap-1.5 text-xs text-base-content/40">
               <Users className="w-3.5 h-3.5" strokeWidth={1.5} />
@@ -159,7 +145,6 @@ function CarCard({ car }) {
               <MapPin className="w-3.5 h-3.5" strokeWidth={1.5} />
               {car.pickupLocation}
             </div>
-            {/* Availability */}
             <div className="flex items-center gap-1.5 text-xs">
               <span
                 className={`w-1.5 h-1.5 rounded-full ${
@@ -171,13 +156,12 @@ function CarCard({ car }) {
                   car.isAvailable ? "text-emerald-400/70" : "text-red-400/70"
                 }
               >
-                {car.isAvailable ? "Available" : "Rented"}
+                {car.isAvailable ? "Available" : "Not Available"}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Price and CTA */}
         <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
           <div>
             <span className="text-xl font-bold text-primary font-heading tracking-tight">
@@ -196,7 +180,6 @@ function CarCard({ car }) {
         </div>
       </div>
 
-      {/* Bottom hover glow line */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         aria-hidden="true"
@@ -206,9 +189,6 @@ function CarCard({ car }) {
 }
 
 export default function ExploreCarsPage() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
-
   const [cars, setCars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -250,29 +230,6 @@ export default function ExploreCarsPage() {
     };
   }, [carType, search]);
 
-  // Route protection
-  useEffect(() => {
-    if (!isPending && !session?.user) {
-      router.replace("/login");
-    }
-  }, [session, isPending, router]);
-
-  if (isPending || !session?.user) {
-    return (
-      <>
-        <Navbar />
-        <main className="relative min-h-screen flex items-center justify-center bg-base-100">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-            <p className="text-sm text-base-content/40">
-              {isPending ? "Checking authentication..." : "Redirecting..."}
-            </p>
-          </div>
-        </main>
-      </>
-    );
-  }
-
   const resultsCount = cars.length;
 
   return (
@@ -287,13 +244,11 @@ export default function ExploreCarsPage() {
           animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* ── Dot grid texture ── */
         .dot-grid {
           background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
           background-size: 32px 32px;
         }
 
-        /* ── Watermark ── */
         .watermark {
           position: absolute;
           top: 50%;
@@ -310,7 +265,6 @@ export default function ExploreCarsPage() {
           z-index: 0;
         }
 
-        /* ── Custom select ── */
         .custom-select {
           appearance: none;
           -webkit-appearance: none;
@@ -321,7 +275,6 @@ export default function ExploreCarsPage() {
           color: #F4F4F5;
         }
 
-        /* ── Line clamp for description ── */
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -333,17 +286,14 @@ export default function ExploreCarsPage() {
       <Navbar />
 
       <main className="relative min-h-screen bg-base-100">
-        {/*  Background Effects  */}
         <div className="absolute inset-0 z-0 dot-grid" aria-hidden="true" />
         <div className="ambient-glow z-[1]" aria-hidden="true" />
         <span className="watermark" aria-hidden="true">
           DF
         </span>
 
-        {/*  Hero Section  */}
         <section className="relative z-10 pt-28 md:pt-36 pb-8 md:pb-12">
           <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center text-center">
-            {/* Eyebrow */}
             <div
               className="animate-in flex items-center gap-3 mb-6 md:mb-8"
               style={{ animationDelay: "0ms" }}
@@ -355,7 +305,6 @@ export default function ExploreCarsPage() {
               <span className="h-px w-8 bg-white/20" aria-hidden="true" />
             </div>
 
-            {/* Heading */}
             <div
               className="animate-in text-center"
               style={{ animationDelay: "80ms" }}
@@ -370,14 +319,12 @@ export default function ExploreCarsPage() {
               </h1>
             </div>
 
-            {/* Divider */}
             <div
               className="animate-in w-14 h-px bg-primary/60 mt-5 md:mt-7 mb-5 md:mb-7"
               style={{ animationDelay: "120ms" }}
               aria-hidden="true"
             />
 
-            {/* Subtitle */}
             <p
               className="animate-in text-sm md:text-base text-base-content/45 font-light leading-relaxed max-w-lg text-center px-2"
               style={{ animationDelay: "160ms" }}
@@ -388,9 +335,7 @@ export default function ExploreCarsPage() {
           </div>
         </section>
 
-        {/*  Filter Bar (Full-Width Glassmorphism)  */}
         <section className="relative z-10 py-8 md:py-10 overflow-hidden">
-          {/* Full width glass background */}
           <div
             className="absolute inset-0 z-0"
             style={{
@@ -403,7 +348,6 @@ export default function ExploreCarsPage() {
             aria-hidden="true"
           />
 
-          {/* Subtle glow on top of glass */}
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[60vw] h-px bg-linear-to-r from-transparent via-primary/20 to-transparent z-[1]"
             aria-hidden="true"
@@ -414,7 +358,6 @@ export default function ExploreCarsPage() {
               className="animate-in flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
               style={{ animationDelay: "240ms" }}
             >
-              {/* Search */}
               <div className="relative flex-1 min-w-0">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30">
                   <Search className="w-4 h-4" strokeWidth={2} />
@@ -438,7 +381,6 @@ export default function ExploreCarsPage() {
                 )}
               </div>
 
-              {/* Car Type Filter */}
               <div className="relative sm:w-48">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-base-content/30">
                   <SlidersHorizontal className="w-4 h-4" strokeWidth={2} />
@@ -460,7 +402,6 @@ export default function ExploreCarsPage() {
                 </span>
               </div>
 
-              {/* Results count */}
               {!isLoading && !error && (
                 <div className="shrink-0 text-xs text-base-content/40 font-medium px-2 text-center sm:text-left">
                   {resultsCount} {resultsCount === 1 ? "car" : "cars"} found
@@ -470,10 +411,8 @@ export default function ExploreCarsPage() {
           </div>
         </section>
 
-        {/*  Results Section  */}
         <section className="relative z-10 pb-24 md:pb-32 mt-6">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            {/* Loading */}
             {isLoading && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -482,7 +421,6 @@ export default function ExploreCarsPage() {
               </div>
             )}
 
-            {/* Error */}
             {!isLoading && error && (
               <div className="flex flex-col items-center justify-center py-24 md:py-32 text-center">
                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-5">
@@ -514,7 +452,6 @@ export default function ExploreCarsPage() {
               </div>
             )}
 
-            {/* Empty */}
             {!isLoading && !error && resultsCount === 0 && (
               <div className="flex flex-col items-center justify-center py-24 md:py-32 text-center">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5">
@@ -543,7 +480,6 @@ export default function ExploreCarsPage() {
               </div>
             )}
 
-            {/* Results Grid */}
             {!isLoading && !error && resultsCount > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
                 {cars.map((car, index) => (

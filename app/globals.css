@@ -6,34 +6,29 @@
   default: true;
   color-scheme: dark;
 
-  --color-primary: #0066FF;
-  --color-primary-content: #FFFFFF;
-  
+  --color-primary: #0066ff;
+  --color-primary-content: #ffffff;
 
-  --color-secondary: #27272A;
-  --color-secondary-content: #FFFFFF;
-  
-  --color-accent: #FF3B30;
-  --color-accent-content: #FFFFFF;
-  
+  --color-secondary: #27272a;
+  --color-secondary-content: #ffffff;
 
-  --color-base-100: #050505; 
-  --color-base-200: #111111; 
-  --color-base-300: #1C1C1E; 
-  --color-base-content: #F4F4F5; 
-  
+  --color-accent: #ff3b30;
+  --color-accent-content: #ffffff;
+
+  --color-base-100: #050505;
+  --color-base-200: #111111;
+  --color-base-300: #1c1c1e;
+  --color-base-content: #f4f4f5;
 
   --radius-selector: 0.5rem;
   --radius-field: 9999px;
-  --radius-box: 1rem; 
+  --radius-box: 1rem;
 }
 
 @theme {
-
   --font-heading: "Plus Jakarta Sans", sans-serif;
   --font-body: "Inter", sans-serif;
 }
-
 
 html {
   scroll-behavior: smooth;
@@ -48,18 +43,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
-  letter-spacing: -0.03em; 
+  letter-spacing: -0.03em;
   font-weight: 700;
 }
-
 
 ::selection {
   background-color: rgba(0, 102, 255, 0.3);
   color: #ffffff;
 }
-
 
 ::-webkit-scrollbar {
   width: 4px;
@@ -72,14 +70,12 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 10px;
 }
 
-
 .glass-premium {
   background: rgba(17, 17, 17, 0.4);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
 
 .card-hover-effect {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -90,7 +86,6 @@ h1, h2, h3, h4, h5, h6 {
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-
 .ambient-glow {
   position: absolute;
   top: -10%;
@@ -98,8 +93,32 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateX(-50%);
   width: 60vw;
   height: 60vw;
-  background: radial-gradient(circle, rgba(0, 102, 255, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 102, 255, 0.15) 0%,
+    rgba(5, 5, 5, 0) 70%
+  );
   filter: blur(80px);
   z-index: 0;
   pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-base-300) 25%,
+    rgba(255, 255, 255, 0.05) 37%,
+    var(--color-base-300) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
 }
