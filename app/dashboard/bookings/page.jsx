@@ -23,7 +23,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const BOOKING_API = "http://localhost:5000/api/bookings";
+import { API } from "@/lib/api";
+const BOOKING_API = API.bookings;
 const SPRING_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 function formatRate(rate) {

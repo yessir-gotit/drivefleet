@@ -32,7 +32,8 @@ const CAR_TYPES = [
   "Sports",
 ];
 
-const API_URL = "http://localhost:5000/api/cars";
+import { API } from "@/lib/api";
+const API_URL = API.cars;
 
 async function fetchCars({ carType, search, signal }) {
   const params = new URLSearchParams();

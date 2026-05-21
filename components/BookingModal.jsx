@@ -2,10 +2,18 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { X, Car, Loader2, CheckCircle, AlertCircle, ArrowLeft } from "lucide-react";
+import {
+  X,
+  Car,
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+  ArrowLeft,
+} from "lucide-react";
 import { toast } from "react-toastify";
 
-const BOOKING_API = "http://localhost:5000/api/bookings";
+import { API } from "@/lib/api";
+const BOOKING_API = API.bookings;
 
 function formatRate(rate) {
   return new Intl.NumberFormat("en-US", {
@@ -15,7 +23,13 @@ function formatRate(rate) {
   }).format(rate);
 }
 
-export default function BookingModal({ isOpen, onClose, car, session, onBookingComplete }) {
+export default function BookingModal({
+  isOpen,
+  onClose,
+  car,
+  session,
+  onBookingComplete,
+}) {
   const [driverNeeded, setDriverNeeded] = useState(false);
   const [specialNote, setSpecialNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +50,7 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
     (e) => {
       if (e.key === "Escape") onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   useEffect(() => {
@@ -90,11 +104,15 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
             <CheckCircle className="w-4 h-4 text-emerald-400" strokeWidth={2} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">Booking Confirmed!</p>
-            <p className="text-xs text-white/50 mt-0.5">{car.carName} is all yours.</p>
+            <p className="text-sm font-semibold text-white">
+              Booking Confirmed!
+            </p>
+            <p className="text-xs text-white/50 mt-0.5">
+              {car.carName} is all yours.
+            </p>
           </div>
         </div>,
-        { icon: false }
+        { icon: false },
       );
 
       onBookingComplete?.();
@@ -111,7 +129,7 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
             <p className="text-xs text-white/50 mt-0.5">{err.message}</p>
           </div>
         </div>,
-        { icon: false }
+        { icon: false },
       );
       setIsSubmitting(false);
       setAnimPhase("enter");
@@ -175,13 +193,18 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
 
             <div className="px-6 py-8 flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-5">
-                <AlertCircle className="w-7 h-7 text-red-400" strokeWidth={1.5} />
+                <AlertCircle
+                  className="w-7 h-7 text-red-400"
+                  strokeWidth={1.5}
+                />
               </div>
               <h3 className="font-heading text-lg font-bold text-base-content mb-2">
                 {car.carName}
               </h3>
               <p className="text-sm text-base-content/50 leading-relaxed max-w-xs">
-                This vehicle has been marked as unavailable by the owner. Please check back later or browse other available vehicles in our fleet.
+                This vehicle has been marked as unavailable by the owner. Please
+                check back later or browse other available vehicles in our
+                fleet.
               </p>
             </div>
 
@@ -299,7 +322,10 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <Car className="w-6 h-6 text-base-content/20" strokeWidth={1} />
+                    <Car
+                      className="w-6 h-6 text-base-content/20"
+                      strokeWidth={1}
+                    />
                   </div>
                 )}
               </div>
@@ -335,7 +361,9 @@ export default function BookingModal({ isOpen, onClose, car, session, onBookingC
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-base-content/40">Insurance</span>
-                <span className="text-xs font-medium text-emerald-400">Included</span>
+                <span className="text-xs font-medium text-emerald-400">
+                  Included
+                </span>
               </div>
               <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
                 <span className="text-xs font-semibold text-base-content/80">

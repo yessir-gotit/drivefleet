@@ -12,7 +12,8 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-const API_URL = "http://localhost:5000/api/cars";
+import { API } from "@/lib/api";
+const API_URL = API.cars;
 const MAX_CARS = 6;
 
 function formatRate(rate) {

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Navbar from "@/components/Navbar";
+import { API } from "@/lib/api";
 import { useSession } from "@/lib/auth-client";
 import {
   Car,
@@ -143,7 +144,7 @@ export default function AddCarPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/cars", {
+      const res = await fetch(`${API.cars}`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
