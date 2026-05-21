@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DriveFleet
+
+**Premium Car Rental Platform** — Browse, book, and list premium vehicles with a seamless digital experience.
+
+🌐 **Live Site:** [https://drivefleet-rho.vercel.app/](https://drivefleet-rho.vercel.app/)
+
+---
+
+## Features
+
+- **Curated Vehicle Fleet** — Browse a handpicked collection of premium vehicles (SUV, Sedan, Luxury, Coupe, Convertible, Electric, Sports, and more) with detailed specs, rates, and high-resolution imagery.
+- **Instant Booking System** — Reserve any available vehicle in under two minutes through a streamlined modal interface. Choose whether you need a driver, add special notes, and receive real-time confirmation — no paperwork required.
+- **Advanced Search & Filtering** — Explore the full fleet using powerful filters by car type, and search by keyword to quickly find the perfect ride for any occasion.
+- **User Authentication & Dashboard** — Secure login and registration powered by Better Auth. Manage your bookings and track reservations from a dedicated dashboard.
+- **List Your Own Car** — Car owners can add vehicles directly to the platform, manage availability, and view their listings — turning the platform into a community-driven marketplace.
+
+## Tech Stack
+
+| Layer  | Technology |
+|--------|-----------|
+| **Framework** | [Next.js 16](https://nextjs.org/) (App Router) |
+| **UI Library** | [React 19](https://react.dev/) |
+| **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) + [DaisyUI 5](https://daisyui.com/) |
+| **Authentication** | [Better Auth](https://www.better-auth.com/) |
+| **Database** | MongoDB |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Notifications** | React Toastify |
+| **Deployment** | Vercel |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Built with Next.js 16, React 19, Tailwind CSS 4, and MongoDB.*
